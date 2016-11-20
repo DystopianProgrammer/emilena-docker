@@ -1,0 +1,40 @@
+database:
+
+  driverClass: org.postgresql.Driver
+  user: emilena
+  password:
+  url: jdbc:postgresql://178.62.61.67:5432/emilena
+
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.generate_statistics: true
+    hibernate.show_sql: false
+    hibernate.format_sql: false
+    #hibernate.hbm2ddl.auto: create
+
+  maxWaitForConnection: 1s
+  validationQuery: "/* MyApplication Health Check */ SELECT 1"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+
+server:
+  applicationContextPath: /emilena-api
+  applicationConnectors:
+    - type: http
+      port: 9090
+
+  adminConnectors:
+    - type: http
+      port: 9091
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      target: stdout
+
+authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m
