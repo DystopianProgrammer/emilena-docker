@@ -1,24 +1,47 @@
-alter table absence drop constraint FK8p80hfn0qcrep0hfjoi779xel;
-alter table availability drop constraint FKj2chdcy99fvwbpo7yt83rm8kl;
-alter table clients_staff drop constraint FKa8crjan2g6ek7ytcx8m2uauiq;
-alter table clients_staff drop constraint FK7yxbva3utk6py3rjr2dik8mo2;
-alter table person drop constraint FK61rvdbphuu5b0ptt7rjbqw3nv;
+alter table absence drop constraint FKmjma8bj8usk36lgdyliycmy87;
+
+alter table availability drop constraint FK8xuimodai9wqc2jrviehti7gb;
+
+alter table clients_staff drop constraint FKdhbdgr1njoyjkbldid435riky;
+
+alter table clients_staff drop constraint FKqvgj46ri8ja8xlfn3x28phy3i;
+
+alter table invoice drop constraint FKovxik7m0rxsf4ip8ym0pifd8t;
+
+alter table person drop constraint FKl2f58fmjq95tny1bjm2cp8wsq;
+
 alter table rota_entry drop constraint FKadsq4jno4v8kojdyplrs1oxk3;
+
 alter table rota_entry drop constraint FK7ofulalwncq5igwbfgn15i1j8;
-alter table rota_item drop constraint FKb7w7kv7y4wiih4edlf3gcen0u;
-alter table rota_item drop constraint FK5y00iclwosfvuarmilceko3u1;
-alter table system_user drop constraint FK8aa3l6bgfcnuu5h7as4kp2iba;
+
+alter table rota_item drop constraint FK20mxnfaegj3n7ys354us46ttg;
+
+alter table rota_item drop constraint FKjydd0slyj9roud6nobmfvxjn4;
+
+alter table system_user drop constraint FKxxsxrm60pwt1xexvao9bf1r1;
+
 alter table tbl_roles drop constraint FKq45qsdxvocopwsx1h7qbuwrnm;
 
 drop table if exists absence cascade;
+
 drop table if exists availability cascade;
+
 drop table if exists clients_staff cascade;
+
+drop table if exists invoice cascade;
+
 drop table if exists person cascade;
+
 drop table if exists rota cascade;
+
 drop table if exists rota_entry cascade;
+
 drop table if exists rota_item cascade;
+
 drop table if exists system_user cascade;
+
 drop table if exists tbl_roles cascade;
+
 drop table if exists traffic cascade;
 
 drop sequence hibernate_sequence;
@@ -45,6 +68,16 @@ create table availability (
 create table clients_staff (
     client_id int8 not null,
     staff_id int8 not null
+);
+
+create table invoice (
+    id int8 not null,
+    amount numeric(19, 2),
+    created bytea,
+    duration int8,
+    issued bytea,
+    rota_item_id int8,
+    primary key (id)
 );
 
 create table person (
@@ -85,8 +118,8 @@ create table rota_item (
     id int8 not null,
     dayOfWeek varchar(255),
     finish_time bytea,
-    is_complete boolean,
     start_time bytea,
+    support_date bytea,
     client_id int8,
     staff_id int8,
     primary key (id)
@@ -112,17 +145,31 @@ create table traffic (
 );
 
 alter table rota_entry add constraint UK_bps1r273bqncc8kcngk2tcw53 unique (rota_item_id);
+
 alter table system_user add constraint UK_204b9ercidw1baj3s3m9lnr33 unique (user_name);
-alter table absence add constraint FK8p80hfn0qcrep0hfjoi779xel foreign key (person_id) references person;
-alter table availability add constraint FKj2chdcy99fvwbpo7yt83rm8kl foreign key (person_id) references person;
-alter table clients_staff add constraint FKa8crjan2g6ek7ytcx8m2uauiq foreign key (staff_id) references person;
-alter table clients_staff add constraint FK7yxbva3utk6py3rjr2dik8mo2 foreign key (client_id) references person;
-alter table person add constraint FK61rvdbphuu5b0ptt7rjbqw3nv foreign key (system_user_id) references system_user;
+
+alter table absence add constraint FKmjma8bj8usk36lgdyliycmy87 foreign key (person_id) references person;
+
+alter table availability add constraint FK8xuimodai9wqc2jrviehti7gb foreign key (person_id) references person;
+
+alter table clients_staff add constraint FKdhbdgr1njoyjkbldid435riky foreign key (staff_id) references person;
+
+alter table clients_staff add constraint FKqvgj46ri8ja8xlfn3x28phy3i foreign key (client_id) references person;
+
+alter table invoice add constraint FKovxik7m0rxsf4ip8ym0pifd8t foreign key (rota_item_id) references rota_item;
+
+alter table person add constraint FKl2f58fmjq95tny1bjm2cp8wsq foreign key (system_user_id) references system_user;
+
 alter table rota_entry add constraint FKadsq4jno4v8kojdyplrs1oxk3 foreign key (rota_item_id) references rota_item;
+
 alter table rota_entry add constraint FK7ofulalwncq5igwbfgn15i1j8 foreign key (rota_id) references rota;
-alter table rota_item add constraint FKb7w7kv7y4wiih4edlf3gcen0u foreign key (client_id) references person;
-alter table rota_item add constraint FK5y00iclwosfvuarmilceko3u1 foreign key (staff_id) references person;
-alter table system_user add constraint FK8aa3l6bgfcnuu5h7as4kp2iba foreign key (staff_id) references person;
+
+alter table rota_item add constraint FK20mxnfaegj3n7ys354us46ttg foreign key (client_id) references person;
+
+alter table rota_item add constraint FKjydd0slyj9roud6nobmfvxjn4 foreign key (staff_id) references person;
+
+alter table system_user add constraint FKxxsxrm60pwt1xexvao9bf1r1 foreign key (staff_id) references person;
+
 alter table tbl_roles add constraint FKq45qsdxvocopwsx1h7qbuwrnm foreign key (id) references system_user;
 
 insert into system_user (id, password, user_name) values (1, 'superuser', 'superuser');
