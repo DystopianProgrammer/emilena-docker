@@ -37,4 +37,21 @@ logging:
       timeZone: UTC
       target: stdout
 
+jerseyClient:
+  timeout: 5s
+  connectionTimeout: 5s
+  connectionRequestTimeout: 5s
+
 authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m
+
+applicationConfiguration:
+  postCodeServiceUrl: https://api.getAddress.io
+  apiKey: dGbZcT7WWkO_nexga6c0bA6513
+  googleMapsDistanceMatrixApiUrl: https://maps.googleapis.com
+  googleMapsDistanceMatrixApiKey: AIzaSyAW05lFGQ9dq7-syLtIMfslSRCkSSQ0B4A
+  maxDistanceRadius: 20
+  minDistanceRadius: 0
+  theme: default
+  organisation: The Frances Taylor Foundation
+  # possible values = CLIENT, STAFF, RANDOM
+  defaultAddress: CLIENT
