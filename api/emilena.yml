@@ -55,3 +55,4 @@ applicationConfiguration:
   organisation: The Frances Taylor Foundation
   # possible values = CLIENT, STAFF, RANDOM
   defaultAddress: CLIENT
+  defaultHourlyRate: 10.75
