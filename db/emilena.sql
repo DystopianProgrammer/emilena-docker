@@ -193,6 +193,7 @@ CREATE TABLE tbl_roles (
 
 CREATE TABLE traffic (
     id bigint NOT NULL,
+    traffic_date character varying(255),
     ip_address character varying(255)
 );
 
